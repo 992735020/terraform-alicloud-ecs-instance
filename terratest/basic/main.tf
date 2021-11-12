@@ -1,3 +1,6 @@
+provider "alicloud" {
+  region = var.region
+}
 
 resource "alicloud_disk" "disk" {
   availability_zone = module.ecs-instance.this_availability_zone
@@ -31,6 +34,7 @@ resource "alicloud_vswitch" "default" {
 
 module "ecs-instance" {
   source                        = "../../"
+  region                        = var.region
   image_id                      = var.image_id
   instance_type                 = var.instance_type
   security_groups               = length(var.security_groups) == 0 ? [alicloud_security_group.default.id] : var.security_groups

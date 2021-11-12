@@ -1,3 +1,15 @@
+variable "region" {
+  default = "cn-shenzhen"
+}
+
+variable "profile" {
+  default = "default"
+}
+
+provider "alicloud" {
+  profile = var.profile
+  region  = var.region
+}
 
 // ECS Disk Resource for Module
 resource "alicloud_disk" "disk" {
@@ -35,6 +47,8 @@ resource "alicloud_vswitch" "default" {
 
 module "ecs-instance" {
   source          = "../../"
+  profile         = var.profile
+  region          = var.region
   security_groups = [alicloud_security_group.default.id]
   vswitch_ids     = [alicloud_vswitch.default.id]
   instance_name   = "CreateByTerraform"
